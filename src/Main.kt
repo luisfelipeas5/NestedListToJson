@@ -110,7 +110,7 @@ fun putNestedLine(group: String, regexIndex: Int, rootNestedList: NestedList): N
     }
     val nestedList = NestedList()
 
-    val pattern = Pattern.compile("(.*)\\.(.*)")
+    val pattern = Pattern.compile("(.*)\\. (.*)")
     val matcher = pattern.matcher(group)
     val find = matcher.find()
     if (find) {
