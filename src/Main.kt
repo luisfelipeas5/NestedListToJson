@@ -21,7 +21,23 @@ fun main(args: Array<String>) {
     val nestedList1 = getNestedListFileAsJson(file2, regexList2)
 
     nestedList.nestedLists.addAll(nestedList1.nestedLists)
+
+    for (firstNestedList: NestedList in nestedList.nestedLists) {
+        updateDescription(firstNestedList)
+        for (secondNestedList: NestedList in firstNestedList.nestedLists) {
+            updateDescription(secondNestedList)
+        }
+    }
+
     printObjectAsJson(nestedList)
+}
+
+private fun updateDescription(nestedList: NestedList) {
+    var description = nestedList.description
+    if (description != null) {
+        description = description.trim()
+        nestedList.description = description.substring(IntRange(0, 0)).toUpperCase() + description.substring(1).toLowerCase()
+    }
 }
 
 fun getNestedListFileAsJson(file: File, regexList: Array<String>): NestedList {
