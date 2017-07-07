@@ -22,14 +22,18 @@ fun main(args: Array<String>) {
 
     nestedList.nestedLists.addAll(nestedList1.nestedLists)
 
+    formatDescriptions(nestedList)
+
+    printObjectAsJson(nestedList)
+}
+
+private fun formatDescriptions(nestedList: NestedList) {
     for (firstNestedList: NestedList in nestedList.nestedLists) {
         updateDescription(firstNestedList)
         for (secondNestedList: NestedList in firstNestedList.nestedLists) {
             updateDescription(secondNestedList)
         }
     }
-
-    printObjectAsJson(nestedList)
 }
 
 private fun updateDescription(nestedList: NestedList) {
