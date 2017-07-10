@@ -7,6 +7,7 @@ class NestedList {
     var description: String? = null
     var nestedLists: MutableList<NestedList> = LinkedList()
     var id: String? = null
+    var telephone: String? = null
 }
 
 fun main(args: Array<String>) {
@@ -19,12 +20,28 @@ fun main(args: Array<String>) {
     val file2 = File("./src/nestedlist2.txt")
     val regexList2 = arrayOf(decimalPointRegex, "(^[a-z]\\..*$)")
     val nestedList1 = getNestedListFileAsJson(file2, regexList2)
+    formatTelephoneList(nestedList1.nestedLists[0])
 
     nestedList.nestedLists.addAll(nestedList1.nestedLists)
 
     formatDescriptions(nestedList)
 
     printObjectAsJson(nestedList)
+}
+
+fun formatTelephoneList(nestedList1: NestedList) {
+    for (firstNestedList: NestedList in nestedList1.nestedLists) {
+        val pattern = Pattern.compile("(.*) \\* (.*$)")
+        val matcher = pattern.matcher(firstNestedList.description)
+        val find = matcher.find()
+        if (find) {
+            val newDescription = matcher.group(1)
+            firstNestedList.description = newDescription
+
+            val telephone = matcher.group(2)
+            firstNestedList.telephone = telephone
+        }
+    }
 }
 
 private fun formatDescriptions(nestedList: NestedList) {
@@ -54,10 +71,11 @@ fun getNestedListFileAsJson(file: File, regexList: Array<String>): NestedList {
 fun printObjectAsJson(nestedList: NestedList) {
     println("{")
 
-    println("\"key\": \"" + nestedList.id + "\",")
+    println("\"id\": \"" + nestedList.id + "\",")
     println("\"description\": \"" + nestedList.description + "\",")
-    val subNestedLists = nestedList.nestedLists
+    println("\"telephone\": \"" + nestedList.telephone + "\",")
 
+    val subNestedLists = nestedList.nestedLists
     println("\"list\": [")
     for (subNestedList: NestedList in subNestedLists) {
         val indexOf = subNestedLists.indexOf(subNestedList)
